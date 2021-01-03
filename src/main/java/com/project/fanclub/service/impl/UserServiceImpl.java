@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<?> register(UserModel userModel) {
 		if (StringExtension.isNullOrEmpty(userModel.getUsername())
 				|| StringExtension.isNullOrEmpty(userModel.getPassword())) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vui lòng nhập đủ thông tin");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nhập thiếu thông tin");
 		}
 		if (null != userRepository.findByUsername(userModel.getUsername())) {
 			return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("Tên tài khoản bị trùng");
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setUsername(userModel.getUsername());
 		user.setPassword(new BCryptPasswordEncoder().encode(userModel.getPassword()));
-		Role role = roleRepository.findByRoleKey("User"); // set role mặc định là user
+		Role role = roleRepository.findByRoleKey("user"); // set role mặc định là user
 		user.setRole(role);
 		userRepository.saveAndFlush(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	public ResponseEntity<?> login(UserModel userModel) {
 		if (StringExtension.isNullOrEmpty(userModel.getUsername())
 				|| StringExtension.isNullOrEmpty(userModel.getPassword())) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vui lòng nhập đủ thông tin");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nhập thiếu thông tin");
 		}
 		UserPrincipal userPrincipal = findByUsername(userModel.getUsername());
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
