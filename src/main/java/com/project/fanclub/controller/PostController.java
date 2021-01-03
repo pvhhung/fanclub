@@ -1,7 +1,6 @@
 package com.project.fanclub.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.fanclub.entity.Post;
 import com.project.fanclub.entity.PostModel;
-import com.project.fanclub.security.SecurityAuditorAware;
 import com.project.fanclub.service.PostService;
 
 @RestController

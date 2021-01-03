@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.fanclub.entity.UserInfo;
 import com.project.fanclub.entity.UserInfoModel;
-import com.project.fanclub.security.SecurityAuditorAware;
 import com.project.fanclub.service.UserInfoService;
 
 @RestController
@@ -38,7 +37,7 @@ public class UserInfoController {
 	}
 
 	@PostMapping("/{userId}")
-	@PreAuthorize("hasAnyAuthority('user')")
+	@PreAuthorize("hasAnyAuthority('user','admin')")
 	public ResponseEntity<?> save(@PathVariable("userId") int userId, @RequestBody UserInfoModel userInfo) {
 		return userInfoService.save(userId, userInfo);
 	}

@@ -32,12 +32,12 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResponseEntity<?> findByUserId(int userId) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer currentUserId = securityAuditorAware.getCurrentAuditor().get();
 		if (currentUserId != userId) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn không có quyền");
-		}
-		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
 		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
@@ -51,15 +51,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResponseEntity<?> save(int userId, UserInfoModel userInfoModel) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer currentUserId = securityAuditorAware.getCurrentAuditor().get();
 		if (currentUserId != userId) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn không có quyền");
 		}
-		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
-		}
 		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
+		}
+		if (StringExtension.isNullOrEmpty(userInfoModel.getFullname())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getAddress())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getPhone())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getEmail())) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nhập thiếu thông tin");
 		}
 		if (null != userInfoRepository.findByUserId(userId)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thông tin đã tồn tại");
@@ -89,15 +95,21 @@ public class UserInfoServiceImpl implements UserInfoService {
 
 	@Override
 	public ResponseEntity<?> update(int userId, UserInfoModel userInfoModel) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer currentUserId = securityAuditorAware.getCurrentAuditor().get();
 		if (currentUserId != userId) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bạn không có quyền");
 		}
-		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
-		}
 		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
+		}
+		if (StringExtension.isNullOrEmpty(userInfoModel.getFullname())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getAddress())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getPhone())
+				|| StringExtension.isNullOrEmpty(userInfoModel.getEmail())) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Nhập thiếu thông tin");
 		}
 		if (null == userInfoRepository.findByUserId(userId)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Người dùng chưa có thông tin");

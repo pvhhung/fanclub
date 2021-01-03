@@ -10,13 +10,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "t_user_info")
 public class UserInfo extends EntityBase {
+	private static final long serialVersionUID = 1L;
 	private String fullname;
 	private String email;
 	private String address;
 	private String phone;
-	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.REFRESH)
-	@JoinColumn(name="user_id")
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	public String getFullname() {
@@ -59,16 +60,4 @@ public class UserInfo extends EntityBase {
 		this.user = user;
 	}
 
-	public UserInfo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public UserInfo(UserInfoModel user) {
-		super();
-		this.fullname = user.getFullname();
-		this.email = user.getEmail();
-		this.address = user.getAddress();
-		this.phone = user.getPhone();
-	}
 }

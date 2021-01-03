@@ -1,12 +1,7 @@
 package com.project.fanclub.service;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.http.ResponseEntity;
 
-import com.project.fanclub.entity.Comment;
 
 public interface CommentService {
 

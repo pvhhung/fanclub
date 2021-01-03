@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +22,7 @@ public class CommentController {
 	private CommentService commentService;
 
 	@GetMapping("/{commentId}")
-	public ResponseEntity<?> commentById(@PathVariable("commentId") int commentId) {
+	public ResponseEntity<?> commentById(@PathVariable("commentId") Integer commentId) {
 		return commentService.findById(commentId);
 	}
 	
@@ -34,19 +33,19 @@ public class CommentController {
 
 	@PostMapping("/post")
 	@PreAuthorize("hasAnyAuthority('user')")
-	public ResponseEntity<?> save(@RequestParam int postId, @RequestParam String content) {
+	public ResponseEntity<?> save(@RequestParam Integer postId, @RequestParam String content) {
 		return commentService.save(postId, content);
 	}
 
 	@DeleteMapping("/{commentId}")
 	@PreAuthorize("hasAnyAuthority('user','admin')")
-	public ResponseEntity<?> delete(@PathVariable("commentId") int commentId) {
+	public ResponseEntity<?> delete(@PathVariable("commentId") Integer commentId) {
 		return commentService.delete(commentId);
 	}
 
 	@PutMapping("/{commentId}")
 	@PreAuthorize("hasAnyAuthority('user','admin')")
-	public ResponseEntity<?> update(@PathVariable("commentId") int commentId, @RequestParam String content) {
+	public ResponseEntity<?> update(@PathVariable("commentId") Integer commentId, @RequestParam String content) {
 		return commentService.update(commentId, content);
 	}
 }

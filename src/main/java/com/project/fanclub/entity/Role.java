@@ -8,6 +8,8 @@ import java.util.Set;
 @Table(name = "t_role")
 public class Role extends EntityBase {
 
+	private static final long serialVersionUID = 1L;
+
 	private String roleName;
 
 	private String roleKey;

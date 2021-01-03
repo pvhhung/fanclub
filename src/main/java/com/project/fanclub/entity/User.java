@@ -7,6 +7,7 @@ import java.util.Set;
 @Entity
 @Table(name = "t_user")
 public class User extends EntityBase {
+	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;
 
@@ -14,10 +15,10 @@ public class User extends EntityBase {
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 
-	@OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private Set<Post> posts = new HashSet<>();
 
-	@OneToMany(mappedBy = "user",cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
 	private Set<Comment> comments = new HashSet<>();
 
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)

@@ -1,15 +1,11 @@
 package com.project.fanclub.service.impl;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.fanclub.entity.Comment;
-import com.project.fanclub.entity.Post;
 import com.project.fanclub.entity.User;
 import com.project.fanclub.extension.StringExtension;
 import com.project.fanclub.repository.CommentRepository;
@@ -32,7 +28,10 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ResponseEntity<?> findById(int commentId) {
-		if (commentRepository.findById(commentId).isPresent()) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(commentId))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
+		if (!commentRepository.findById(commentId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		Comment comment = commentRepository.findById(commentId).get();
@@ -41,8 +40,11 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ResponseEntity<?> save(int postId, String content) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(postId)) || StringExtension.isNullOrEmpty(content)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
-		if (postRepository.findById(postId).isPresent()) {
+		if (!postRepository.findById(postId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bài viết");
 		}
 		if (StringExtension.isNullOrEmpty(content)) {
@@ -58,6 +60,12 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ResponseEntity<?> delete(int commentId) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(commentId))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
+		if (!securityAuditorAware.getCurrentAuditor().isPresent()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
 		User user = userRepository.findById(userId).get();
 		if ("admin".equals(user.getRole().getRoleKey())) {
@@ -67,11 +75,11 @@ public class CommentServiceImpl implements CommentService {
 			commentRepository.deleteById(commentId);
 			return ResponseEntity.ok("Xóa thành công");
 		}
+		if (!commentRepository.findById(commentId).isPresent()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
+		}
 		if (userId != commentRepository.findById(commentId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền xóa");
-		}
-		if (commentRepository.findById(commentId).isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		commentRepository.deleteById(commentId);
 		return ResponseEntity.ok("Xóa thành công");
@@ -79,10 +87,13 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ResponseEntity<?> update(int commentId, String content) {
+		if (StringExtension.isNullOrEmpty(Integer.toString(commentId)) || StringExtension.isNullOrEmpty(content)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
+		}
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
 		User user = userRepository.findById(userId).get();
 		if ("admin".equals(user.getRole().getRoleKey())) {
-			if (commentRepository.findById(commentId).isPresent()) {
+			if (!commentRepository.findById(commentId).isPresent()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 			}
 			Comment comment = commentRepository.findById(commentId).get();
@@ -93,7 +104,7 @@ public class CommentServiceImpl implements CommentService {
 		if (userId != commentRepository.findById(commentId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền sửa");
 		}
-		if (commentRepository.findById(commentId).isPresent()) {
+		if (!commentRepository.findById(commentId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		if (StringExtension.isNullOrEmpty(content)) {

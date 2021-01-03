@@ -8,6 +8,7 @@ import java.util.Date;
 @Entity
 @Table(name = "t_token")
 public class Token extends EntityBase {
+	private static final long serialVersionUID = 1L;
 
 	@Column(length = 1000)
 	private String token;

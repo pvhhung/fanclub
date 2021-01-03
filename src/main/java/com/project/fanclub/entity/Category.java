@@ -6,15 +6,14 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "t_category")
 public class Category extends EntityBase {
+
+	private static final long serialVersionUID = 1L;
 	private String categoryKey;
 	private String categoryName;
 

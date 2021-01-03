@@ -19,6 +19,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Entity
 @Table(name = "t_post")
 public class Post extends EntityBase {
+
+	private static final long serialVersionUID = 1L;
 	private String title;
 	private String content;
 	private String image;

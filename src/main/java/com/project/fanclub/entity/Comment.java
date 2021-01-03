@@ -6,10 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -17,6 +14,8 @@ import org.springframework.data.annotation.CreatedDate;
 @Entity
 @Table(name = "t_comment")
 public class Comment extends EntityBase {
+
+	private static final long serialVersionUID = 1L;
 	private String content;
 	@CreatedDate
 	private Date createdAt;
