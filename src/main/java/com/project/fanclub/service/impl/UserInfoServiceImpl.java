@@ -39,7 +39,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		if (null == userInfoRepository.findByUserId(userId)) {
@@ -58,7 +58,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		if (null != userInfoRepository.findByUserId(userId)) {
@@ -79,7 +79,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		UserInfo userInfo = userInfoRepository.findByUserId(userId);
@@ -96,7 +96,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		if (null == userInfoRepository.findByUserId(userId)) {

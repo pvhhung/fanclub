@@ -44,10 +44,10 @@ public class PostServiceImpl implements PostService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(categoryId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (categoryRepository.findById(categoryId).isEmpty()) {
+		if (!categoryRepository.findById(categoryId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy danh mục");
-		}
-		if (categoryRepository.findById(categoryId).get().getPosts().isEmpty()) {
+		} 
+		if ((categoryRepository.findById(categoryId).get().getPosts().size() == 0)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Danh mục này chưa có bài viết");
 		}
 		Set<Post> posts = new HashSet<Post>();
@@ -60,10 +60,10 @@ public class PostServiceImpl implements PostService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
-		if (postRepository.findByUserId(userId).isEmpty()) {
+		if (postRepository.findByUserId(userId).size() == 0) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bài viết");
 		}
 		List<Post> posts = new ArrayList<Post>();
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public ResponseEntity<?> save(PostModel postModel) {
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		User user = userRepository.findById(userId).get();
@@ -107,7 +107,7 @@ public class PostServiceImpl implements PostService {
 		if (userId != postRepository.findById(postId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền xóa");
 		}
-		if (postRepository.findById(postId).isEmpty()) {
+		if (!postRepository.findById(postId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bài viết");
 		}
 		postRepository.deleteById(postId);
@@ -120,10 +120,10 @@ public class PostServiceImpl implements PostService {
 		if (userId != postRepository.findById(postId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền sửa");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
-		if (postRepository.findById(postId).isEmpty()) {
+		if (postRepository.findById(postId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bài viết");
 		}
 		Post post = postRepository.findById(postId).get();

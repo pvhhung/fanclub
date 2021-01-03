@@ -33,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (StringExtension.isNullOrEmpty(categoryId.toString())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thông tin không hợp lệ");
 		}
-		if (categoryRepository.findById(categoryId).isEmpty()) {
+		if (!categoryRepository.findById(categoryId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy danh mục");
 		}
 		categoryRepository.deleteById(categoryId);
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 				|| StringExtension.isNullOrEmpty(cat.getCategoryName())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thông tin không hợp lệ");
 		}
-		if (categoryRepository.findById(categoryId).isEmpty()) {
+		if (categoryRepository.findById(categoryId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy danh mục");
 		}
 		Category category = categoryRepository.findById(categoryId).get();
@@ -69,7 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
 		if (StringExtension.isNullOrEmpty(categoryId.toString())) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thông tin không hợp lệ");
 		}
-		if (categoryRepository.findById(categoryId).isEmpty()) {
+		if (categoryRepository.findById(categoryId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy danh mục");
 		}
 		Category category = categoryRepository.findById(categoryId).get();

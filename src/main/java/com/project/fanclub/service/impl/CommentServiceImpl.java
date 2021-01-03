@@ -32,7 +32,7 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public ResponseEntity<?> findById(int commentId) {
-		if (commentRepository.findById(commentId).isEmpty()) {
+		if (commentRepository.findById(commentId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		Comment comment = commentRepository.findById(commentId).get();
@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public ResponseEntity<?> save(int postId, String content) {
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
-		if (postRepository.findById(postId).isEmpty()) {
+		if (postRepository.findById(postId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bài viết");
 		}
 		if (StringExtension.isNullOrEmpty(content)) {
@@ -61,7 +61,7 @@ public class CommentServiceImpl implements CommentService {
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
 		User user = userRepository.findById(userId).get();
 		if ("admin".equals(user.getRole().getRoleKey())) {
-			if (commentRepository.findById(commentId).isEmpty()) {
+			if (!commentRepository.findById(commentId).isPresent()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 			}
 			commentRepository.deleteById(commentId);
@@ -70,7 +70,7 @@ public class CommentServiceImpl implements CommentService {
 		if (userId != commentRepository.findById(commentId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền xóa");
 		}
-		if (commentRepository.findById(commentId).isEmpty()) {
+		if (commentRepository.findById(commentId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		commentRepository.deleteById(commentId);
@@ -82,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
 		Integer userId = securityAuditorAware.getCurrentAuditor().get();
 		User user = userRepository.findById(userId).get();
 		if ("admin".equals(user.getRole().getRoleKey())) {
-			if (commentRepository.findById(commentId).isEmpty()) {
+			if (commentRepository.findById(commentId).isPresent()) {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 			}
 			Comment comment = commentRepository.findById(commentId).get();
@@ -93,7 +93,7 @@ public class CommentServiceImpl implements CommentService {
 		if (userId != commentRepository.findById(commentId).get().getUser().getId()) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Không có quyền sửa");
 		}
-		if (commentRepository.findById(commentId).isEmpty()) {
+		if (commentRepository.findById(commentId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy bình luận");
 		}
 		if (StringExtension.isNullOrEmpty(content)) {

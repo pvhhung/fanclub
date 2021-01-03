@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		User user = userRepository.findById(userId).orElse(null);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		userRepository.deleteById(userId);
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
 		if (StringExtension.isNullOrEmpty(Integer.toString(userId))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi");
 		}
-		if (userRepository.findById(userId).isEmpty()) {
+		if (!userRepository.findById(userId).isPresent()) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy người dùng");
 		}
 		User user = userRepository.findById(userId).get();

@@ -61,9 +61,9 @@ public class Post extends EntityBase {
 		this.image = image;
 	}
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
+//	public Set<Category> getCategories() {
+//		return categories;
+//	}
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
